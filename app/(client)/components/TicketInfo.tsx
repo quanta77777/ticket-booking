@@ -1,14 +1,18 @@
 "use client";
-import React, {useState} from "react";
-import { useQueryClient  } from 'react-query';
+import React, { useState } from "react";
+import { useQueryClient } from "react-query";
 import { Button, Modal, Tag } from "antd";
 import { IoQrCodeOutline } from "react-icons/io5";
-import { format } from 'date-fns-tz';
-import { useTheaterByID } from "@/app/api/theater"; 
+import { format } from "date-fns-tz";
+import { useTheaterByID } from "@/app/api/theater";
 import { useBranchByID } from "@/app/api/branch";
 import { GetMoviesById } from "@/app/api/movie";
-import {  ReserveSeat  } from "@/app/api/seat";
-import { createTicket, createSeatsWithTicketId, createProductWithTicketId } from "@/app/api/ticket";
+import { ReserveSeat } from "@/app/api/seat";
+import {
+  createTicket,
+  createSeatsWithTicketId,
+  createProductWithTicketId,
+} from "@/app/api/ticket";
 type Props = {
   setIsTicketInfoModalOpen: (value: boolean) => void;
   setIsModalOpen: (value: boolean) => void;
@@ -18,9 +22,9 @@ type Props = {
   info: any;
   selectedProducts: any;
   totalPriceSeat: any;
-  setSelectedSeats: any
+  setSelectedSeats: any;
   totalPriceProduct: any;
-  refetch : any
+  refetch: any;
 };
 
 const TicketInfo = ({
@@ -34,46 +38,45 @@ const TicketInfo = ({
   selectedProducts,
   totalPriceSeat,
   totalPriceProduct,
-  refetch
+  refetch,
 }: Props) => {
-    // const queryClient = useQueryClient();
- 
-    const {data : theaterData} = useTheaterByID(info?.theater_id)
-    const {data : branchData} = useBranchByID(info?.branch_id)
-    const {data : movieData} = GetMoviesById(info?.movie_id)
-    let dateStr = info?.start_time
-    console.log("seats",selectedSeats)
-    // const data = queryClient.getQueryData('date');
-    // const formattedDate = format(new Date(dateStr), 'dd/MM/yyyy', { timeZone: 'Asia/Ho_Chi_Minh' });
+  // const queryClient = useQueryClient();
+
+  const { data: theaterData } = useTheaterByID(info?.theater_id);
+  const { data: branchData } = useBranchByID(info?.branch_id);
+  const { data: movieData } = GetMoviesById(info?.movie_id);
+  let dateStr = info?.start_time;
+  // console.log("seats", selectedSeats);
+  // const data = queryClient.getQueryData('date');
+  // const formattedDate = format(new Date(dateStr), 'dd/MM/yyyy', { timeZone: 'Asia/Ho_Chi_Minh' });
 
   const total = totalPriceSeat + totalPriceProduct;
   const handleReserveSeat = async () => {
-    const ticketId = await createTicket(info?.movie_id, info?.showtime_id, total)
-    if(ticketId) {
-      await createSeatsWithTicketId(ticketId, selectedSeats )
-      await createProductWithTicketId(ticketId, selectedProducts)
-      await ReserveSeat(selectedSeats, info?.showtime_id)
-      alert("Đặt ghế thành công")
+    const ticketId = await createTicket(
+      info?.movie_id,
+      info?.showtime_id,
+      total
+    );
+    if (ticketId) {
+      await createSeatsWithTicketId(ticketId, selectedSeats);
+      await createProductWithTicketId(ticketId, selectedProducts);
+      await ReserveSeat(selectedSeats, info?.showtime_id);
+      alert("Đặt ghế thành công");
       await refetch().then(() => {
-        console.log('Data refetched');
+        console.log("Data refetched");
       });
-      
-    
-    setIsModalOpen(false)
-    setIsTicketInfoModalOpen(false);
-    setIsProductModalOpen(false)
-    setSelectedSeats([])
-    }else {
-      console.log("ticketid invalid")
+
+      setIsModalOpen(false);
+      setIsTicketInfoModalOpen(false);
+      setIsProductModalOpen(false);
+      setSelectedSeats([]);
+    } else {
+      console.log("ticketid invalid");
     }
-    
-   
-   
-  }
+  };
   const showModal = () => {
     setIsTicketInfoModalOpen(true);
   };
-
 
   const handleOk = () => {
     setIsTicketInfoModalOpen(false);
@@ -83,16 +86,16 @@ const TicketInfo = ({
   };
   function formatDate(dateString: string): string {
     const dateObject = new Date(dateString);
-   
+
     const day = dateObject.getUTCDate(); // Lấy ngày (1-31)
-const month = dateObject.getMonth() + 1; 
-const year = dateObject.getFullYear(); 
-// console.log(dateObject)
+    const month = dateObject.getMonth() + 1;
+    const year = dateObject.getFullYear();
+    // console.log(dateObject)
     return `${day}/${month}/${year}`;
   }
   const formatTime = (isoString: string): string => {
     const date = new Date(isoString);
-   
+
     const hours = date.getUTCHours().toString().padStart(2, "0");
     const minutes = date.getUTCMinutes().toString().padStart(2, "0");
     return `${hours}:${minutes}`;
@@ -113,18 +116,20 @@ const year = dateObject.getFullYear();
             <Tag color="#108ee9" className="w-11 text-center">
               K
             </Tag>
-            <h1 className="font-bold text-lg">
-              {movieData?.title}
-            </h1>
+            <h1 className="font-bold text-lg">{movieData?.title}</h1>
           </div>
           <div className="flex justify-between mt-3">
             <div>
               <p className="text-xs font-medium text-gray-500">THỜI GIAN</p>
-              <p className="text-sm font-bold ">{formatTime(info?.start_time)} ~ {formatTime(info?.end_time)}</p>
+              <p className="text-sm font-bold ">
+                {formatTime(info?.start_time)} ~ {formatTime(info?.end_time)}
+              </p>
             </div>
             <div>
               <p className="text-xs font-medium text-gray-500">NGÀY CHIẾU</p>
-              <p className="text-sm font-bold ">{formatDate(info?.start_time)}</p>
+              <p className="text-sm font-bold ">
+                {formatDate(info?.start_time)}
+              </p>
             </div>
           </div>
           <div>
@@ -132,7 +137,7 @@ const year = dateObject.getFullYear();
               <p className="text-xs font-medium text-gray-500"> RẠP</p>
               <p className="text-sm font-bold ">{branchData?.name}</p>
               <p className="text-xs font-medium text-gray-500">
-              {branchData?.address}
+                {branchData?.address}
               </p>
             </div>
           </div>
@@ -185,14 +190,13 @@ const year = dateObject.getFullYear();
             </p>
           </div>
           <div className="mt-2 flex justify-end">
-          <Button
-                  className="bg-blue-500 text-white p-3 flex items-center ml-2"
-               onClick={handleReserveSeat}
-                >
-                  Mua vé
-                </Button>
+            <Button
+              className="bg-blue-500 text-white p-3 flex items-center ml-2"
+              onClick={handleReserveSeat}
+            >
+              Mua vé
+            </Button>
           </div>
-    
         </div>
         <div className="md:w-1/2 w-full bg-gradient-to-t from-pink-400 to-pink-500 flex items-center justify-center">
           <div className="p-5 w-full flex flex-col justify-center">
@@ -209,7 +213,6 @@ const year = dateObject.getFullYear();
             </div>
           </div>
         </div>
-    
       </div>
     </Modal>
   );

@@ -42,3 +42,7 @@
   background-color: white !important;
   border-radius: 50% !important;
 }
+
+.ant-notification {
+  z-index: 10000; 
+}

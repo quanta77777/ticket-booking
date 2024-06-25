@@ -185,7 +185,7 @@ const page = (props: Props) => {
 
             <Booking id={params.id}/>
             <div className="my-5 border-b-2 border-gray-100 dark:border-slate-600"></div>
-            <Comment />
+            <Comment movieId={params.id}/>
           </div>
           <div className="w-1/3 ml-3 hidden md:flex">
             <SideMovies />

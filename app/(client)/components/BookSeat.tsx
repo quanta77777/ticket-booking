@@ -95,7 +95,7 @@ const BookSeat = ({ setIsModalOpen, isModalOpen, info }: Props) => {
         "Thứ 6",
         "Thứ 7",
       ];
-      console.log("day of wek",day)
+      // console.log("day of wek",day)
       dayName = daysOfWeek[dayOfWeek];
     }
    
@@ -167,7 +167,7 @@ const month = dateObject.getMonth() + 1;
                 <div className="grid grid-cols-4 gap-2 ">
                   {doubleChair &&
                     doubleChair.map((item: any, i: any) => (
-                      <div
+                      <button
                         key={i}
                         className={`flex bg-pink-600 hover:bg-pink-800 justify-center py-1  mt-2 cursor-pointer rounded-xl ${
                           selectedSeats.some(
@@ -176,7 +176,15 @@ const month = dateObject.getMonth() + 1;
                           )
                             ? "!bg-blue-500"
                             : ""
-                        }`}
+                        }
+                        ${
+                          item.is_reserved === true
+                            ? "!bg-gray-700 !cursor-default"
+                            : ""
+                        }
+                        
+                        `}
+                        disabled={item.is_reserved}
                         onClick={() => handleClick(item)}
                       >
                         <div
@@ -185,7 +193,7 @@ const month = dateObject.getMonth() + 1;
                         >
                           {item.seat_number}
                         </div>
-                      </div>
+                      </button>
                     ))}
                 </div>
               </div>

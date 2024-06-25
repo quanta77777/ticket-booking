@@ -46,7 +46,7 @@ const Booking = (props: Props) => {
   const branchChainIds = data
     ? [...new Set(data.map((showtime: any) => showtime.branch_id))]
     : [];
-  console.log('ids',cinemaChainIds)
+  // console.log('ids',cinemaChainIds)
   // console.log(data)
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const cinemasQueries  = useCinemaChainDetails(cinemaChainIds || []);
@@ -56,18 +56,18 @@ const Booking = (props: Props) => {
   // console.log("cenemas id",cinemasQueries)
 
   const hasDataBranch = branchQueries.some((query: any) => query.data);
-  cinemasQueries.map((cinemaQuery : any, index ) => {
-       console.log("ceneeedata",cinemaQuery)
-       if (cinemaQuery.isLoading) {
-        console.log("dang load")
-      }
-      if (cinemaQuery.isError) {
-        console.log(cinemaQuery.error.message)
+//   cinemasQueries.map((cinemaQuery : any, index ) => {
+//        console.log("data",cinemaQuery)
+//        if (cinemaQuery.isLoading) {
+//         console.log("dang load")
+//       }
+//       if (cinemaQuery.isError) {
+//         console.log(cinemaQuery.error.message)
        
-      }
-      console.log("data nè",cinemaQuery.data)
+//       }
+//       console.log("data",cinemaQuery.data)
 
-})
+// })
   // branchQueries.map((branchQuery: any, i) =>
   //   console.log(`branch query ${i}`, branchQuery.data)
   // );
@@ -88,7 +88,7 @@ const Booking = (props: Props) => {
   }, [queryClient, selectedDay]);
   useEffect(() => {
     if (cinemaData) {
-      // console.log("cinemaData", cinemaData)
+      console.log("cinemaData", cinemaData)
       console.log("branchSingleQueries", branchSingleQueries);
       branchSingleQueries.map((branchQuery: any, i) =>
         console.log(`branch query ${i}`, branchQuery.data)
@@ -153,7 +153,7 @@ const Booking = (props: Props) => {
   };
   const handleBooking = (cinema: any) => {
     // console.log(time);
-    console.log("info",cinema);
+    // console.log("info",cinema);
     setInfoSeat(cinema)
     setIsModalOpen(true);
   };
@@ -169,7 +169,7 @@ const Booking = (props: Props) => {
     return (
       <div className=" dark:bg-gray-900 ">
         <ul className="flex flex-wrap ">
-          {data.map((time: any, i: any) => (
+          {data?.map((time: any, i: any) => (
             <li
               className="ml-3 border border-blue-400 dark:text-white rounded p-2 cursor-pointer m-3"
               key={i}

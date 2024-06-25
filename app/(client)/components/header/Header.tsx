@@ -1,15 +1,44 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { FaUserCircle } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
 import { ThemeSwitcher } from "../ThemeSwitcher";
 import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
+import Login from "../Login";
+import Register from "../Register";
+import { getAuth } from "@/app/api/auth";
 type Props = {};
 
 const Header = (props: Props) => {
   const [isOpen, setOpen] = useState(false);
+  const [loginVisible, setLoginVisible] = useState(false);
+  const [registerVisible, setRegisterVisible] = useState(false);
+  const showLoginModal = () => {
+    setRegisterVisible(false);
+    setLoginVisible(true);
+  };
 
+  const closeLoginModal = () => {
+    setLoginVisible(false);
+  };
+
+  const showRegisterModal = () => {
+    setLoginVisible(false); 
+    setRegisterVisible(true);
+  };
+
+  const closeRegisterModal = () => {
+    setRegisterVisible(false);
+  };
+  const handleAuth = async () => {
+    try {
+      await getAuth()
+    } catch (error) {
+      console.log("error admin",error)
+    }
+  }
   return (
     <>
       <header className="bg-white dark:bg-slate-900 shadow-lg fixed w-full top-0 dark:shadow-slate-800 dark:shadow-md  z-[9999]">
@@ -55,10 +84,17 @@ const Header = (props: Props) => {
               >
                 Contact
               </Link>
+             
         
             </div>
             <div className="mr-2">
               <ThemeSwitcher />
+            </div>
+            <div className="mr-2 cursor-pointer" onClick={handleAuth}>
+              Click
+            </div>
+            <div className="mr-2">
+            <FaUserCircle size={27} className="cursor-pointer" onClick={showLoginModal}/>
             </div>
             <IconButton
               aria-label="Menu"
@@ -133,6 +169,8 @@ const Header = (props: Props) => {
         
         )}
       </header>
+      <Login visible={loginVisible} onClose={closeLoginModal} showRegisterModal={showRegisterModal}/>
+      <Register visible={registerVisible} onClose={closeRegisterModal} showLoginModal={showLoginModal}/>
     </>
   );
 };

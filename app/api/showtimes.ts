@@ -40,7 +40,7 @@ const fetchShowtimeCinema = async (cinemaId : any, day: string) => {
 
 
 export const GetShowtimesByDayAndMoVieId = ( day : string, id : number) => {
-  return useQuery({queryKey: ['showtime', id, day],queryFn: () => fetchShowtimesByDayAndMoVieId(day, id),enabled: !!day });
+  return useQuery({queryKey: ['showtimes', id, day],queryFn: () => fetchShowtimesByDayAndMoVieId(day, id),enabled: !!day });
 };
 export const useBranchShowtime = (branchId : any, day : string) => {
   return useQuery({queryKey: ['branch-showtime', branchId, day],queryFn: () => fetchShowtimeBranch(branchId, day),enabled: !!branchId });

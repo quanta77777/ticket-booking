@@ -10,7 +10,7 @@ export const createTicket = async (movieId: string,   showtimeId : string, Tpric
     const showtimeIdInt = parseInt(showtimeId, 10);
     const priceInt = parseInt(Tprice, 10);
     const response = await axios.post(`${apiUrl}/ticket`, {
-        user_id : 2,
+        user_id : 4,
         movie_id: movieIdInt,
         showtime_id: showtimeIdInt,
         price: priceInt

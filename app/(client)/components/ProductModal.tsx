@@ -32,7 +32,7 @@ const ProductModal = ({
   const [selectedProducts, setSelectedProducts] = useState([]);
   const branchID = info?.branch_id;
   const { data } = useGetProductWithBranchID(branchID);
-  console.log("data", data);
+  // console.log("data", data);
 
   useEffect(() => {
     if (data) {
